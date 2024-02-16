@@ -8,10 +8,11 @@ host=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end
 docker exec -i maria-slave mysql -u root -e "CHANGE MASTER TO MASTER_HOST='$host', MASTER_USER='root', MASTER_LOG_FILE='$file', MASTER_LOG_POS=$pos;"
 docker exec -i maria-slave mysql -u root -e "START SLAVE;"
 docker exec -i maria-master mysql -u root app < ./structure.sql
+sleep 5 && curl http://localhost:8090 && docker ps
+echo -e "\nКонтейнеры запущены. Можно проверить в браузере, что сайт доступен и нажать enter" && read approve
+docker stop maria-slave && docker ps && curl http://localhost:8090
+echo -e "\nОстановлен 1 контейнер БД. Можно проверить в браузере, что сайт доступен и нажать enter" && read approve
+docker start maria-slave && docker stop maria-master && docker ps
 sleep 5 && curl http://localhost:8090
-echo -e "\nМожно проверить в браузере, что сайт доступен и нажать enter" && read approve
-docker stop maria-slave && curl http://localhost:8090
-echo -e "\nМожно проверить в браузере, что сайт доступен и нажать enter" && read approve
-docker start maria-slave && docker stop maria-master
-sleep 5 && curl http://localhost:8090
-echo -e "\nМожно проверить в браузере, что сайт доступен и нажать enter" && read approve
+echo -e "\nОстановлен другой контейнер БД. Можно проверить в браузере, что сайт доступен и нажать enter" && read approve
+docker ps
