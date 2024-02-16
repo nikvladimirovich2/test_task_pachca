@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  db1:
+    image: mariadb:10.11.2
+    container_name: maria-master
+    environment:
+      - MYSQL_DATABASE=app
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - 3304:3306
+    volumes:
+      - ./mariadb.cnf:/etc/mysql/mariadb.cnf
+      - ./structure.sql:/home/structure.sql
+#      - ./primarycnf:/etc/mysql/conf.d:z
+#      - ./primaryinit.sql:/home/primaryinit.sql
+#      - ./log-files-primary:/var/lib/mysql
+#    command: sh -c "sleep 35 && mysql -u root -h 127.0.0.1 app < /home/structure.sql"
+    networks:
+      - local
+
+  db2:
+    image: mariadb:10.11.2
+    container_name: maria-slave
+    environment:
+      - MYSQL_DATABASE=app
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - 3305:3306
+    volumes:
+      - ./mariadb-slave.cnf:/etc/mysql/mariadb.cnf
+#      - ./primarycnf:/etc/mysql/conf.d:z
+#      - ./primaryinit.sql:/home/primaryinit.sql
+#      - ./log-files-primary:/var/lib/mysql
+#    command: sh -c "sleep 35 && mysql -u root -h 127.0.0.1 app < /home/structure.sql"
+    networks:
+      - local
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx-balancer
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "3307:80"
+    restart: always
+    networks:
+      - local
+
+  ruby:
+    image: ruby:1.1
+    ports:
+      - 8090:4567
+    networks:
+      - local
+
+networks:
+  local:
