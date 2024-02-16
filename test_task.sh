@@ -11,7 +11,7 @@ docker exec -i maria-master mysql -u root app < ./structure.sql
 sleep 5 && curl http://localhost:8090
 echo -e "\nМожно проверить в браузере, что сайт доступен и нажать enter" && read approve
 docker stop maria-slave && curl http://localhost:8090
-read -rp "\nМожно проверить в браузере, что сайт доступен и нажать enter" approve
+echo -e "\nМожно проверить в браузере, что сайт доступен и нажать enter" && read approve
 docker start maria-slave && docker stop maria-master
 sleep 5 && curl http://localhost:8090
-read -rp "\nМожно проверить в браузере, что сайт доступен и нажать enter" approve
+echo -e "\nМожно проверить в браузере, что сайт доступен и нажать enter" && read approve
