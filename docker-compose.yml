@@ -12,10 +12,6 @@ services:
     volumes:
       - ./mariadb.cnf:/etc/mysql/mariadb.cnf
       - ./structure.sql:/home/structure.sql
-#      - ./primarycnf:/etc/mysql/conf.d:z
-#      - ./primaryinit.sql:/home/primaryinit.sql
-#      - ./log-files-primary:/var/lib/mysql
-#    command: sh -c "sleep 35 && mysql -u root -h 127.0.0.1 app < /home/structure.sql"
     networks:
       - local
 
@@ -29,10 +25,6 @@ services:
       - 3305:3306
     volumes:
       - ./mariadb-slave.cnf:/etc/mysql/mariadb.cnf
-#      - ./primarycnf:/etc/mysql/conf.d:z
-#      - ./primaryinit.sql:/home/primaryinit.sql
-#      - ./log-files-primary:/var/lib/mysql
-#    command: sh -c "sleep 35 && mysql -u root -h 127.0.0.1 app < /home/structure.sql"
     networks:
       - local
 
