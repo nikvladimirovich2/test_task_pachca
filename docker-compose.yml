@@ -48,7 +48,7 @@ services:
       - local
 
   ruby:
-    image: ruby:1.1
+    image: ruby_pachca:1.0
     ports:
       - 8090:4567
     networks:
