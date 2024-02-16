@@ -9,9 +9,9 @@ docker exec -i maria-slave mysql -u root -e "CHANGE MASTER TO MASTER_HOST='$host
 docker exec -i maria-slave mysql -u root -e "START SLAVE;"
 docker exec -i maria-master mysql -u root app < ./structure.sql
 sleep 5 && curl http://localhost:8090
-echo -e "/nМожно проверить в браузере, что сайт доступен и нажать enter" && read approve
+echo -e "\nМожно проверить в браузере, что сайт доступен и нажать enter" && read approve
 docker stop maria-slave && curl http://localhost:8090
-read -rp "/nМожно проверить в браузере, что сайт доступен и нажать enter" approve
+read -rp "\nМожно проверить в браузере, что сайт доступен и нажать enter" approve
 docker start maria-slave && docker stop maria-master
 sleep 5 && curl http://localhost:8090
-read -rp "/nМожно проверить в браузере, что сайт доступен и нажать enter" approve
+read -rp "\nМожно проверить в браузере, что сайт доступен и нажать enter" approve
